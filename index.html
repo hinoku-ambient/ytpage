@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hinoku on YouTube</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #0e1117; color: #e8eaf0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { min-height: 100%; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 24px; box-sizing: border-box; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: 0.04em; }
+  p { margin: 0 0 28px; opacity: 0.75; max-width: 320px; line-height: 1.45; }
+  .btn { display: inline-block; background: #ff0033; color: #fff; text-decoration: none;
+    font-size: 18px; font-weight: 600; padding: 16px 28px; border-radius: 999px; }
+  .hint { margin-top: 28px; font-size: 13px; opacity: 0.55; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Hinoku</h1>
+  <p>Ambient mixes for focus, sleep and late nights.</p>
+  <a id="open" class="btn" href="https://www.youtube.com/channel/UC6uI8obP9dpYqzUZUSH8acA?sub_confirmation=1">Open in YouTube</a>
+  <p class="hint">Not opening? Tap the menu (three dots) and choose "Open in browser".</p>
+</main>
+<script>
+(function () {
+  var id = "UC6uI8obP9dpYqzUZUSH8acA";
+  var web = "https://www.youtube.com/channel/" + id + "?sub_confirmation=1";
+  var ua = navigator.userAgent || "";
+  var btn = document.getElementById("open");
+
+  if (/Android/i.test(ua)) {
+    // Android: explicit intent that targets the YouTube app, with a web fallback
+    btn.href = "intent://www.youtube.com/channel/" + id +
+      "#Intent;scheme=https;package=com.google.android.youtube;" +
+      "S.browser_fallback_url=" + encodeURIComponent(web) + ";end";
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    // iOS: try the YouTube URL scheme on tap, fall back to the web page
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.href = "youtube://www.youtube.com/channel/" + id;
+      setTimeout(function () {
+        if (document.visibilityState === "visible") { window.location.href = web; }
+      }, 1500);
+    });
+  }
+})();
+</script>
+</body>
+</html>
