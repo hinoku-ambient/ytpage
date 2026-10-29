@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,6 +17,18 @@
     font-size: 18px; font-weight: 600; padding: 16px 28px; border-radius: 999px; }
   .hint { margin-top: 28px; font-size: 13px; opacity: 0.55; }
 </style>
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2675429902656201');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent');
+</script>
 </head>
 <body>
 <main>
@@ -30,6 +43,11 @@
   var web = "https://www.youtube.com/channel/" + id + "?sub_confirmation=1";
   var ua = navigator.userAgent || "";
   var btn = document.getElementById("open");
+
+  // Report the tap to Meta (custom event you can optimize for)
+  btn.addEventListener("click", function () {
+    try { fbq('trackCustom', 'OpenYouTubeTap'); } catch (err) {}
+  });
 
   if (/Android/i.test(ua)) {
     // Android: explicit intent that targets the YouTube app, with a web fallback
