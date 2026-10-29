@@ -1,21 +1,58 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hinoku on YouTube</title>
 <style>
   :root { color-scheme: dark; }
-  html, body { margin: 0; height: 100%; background: #0e1117; color: #e8eaf0;
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #0b0e16; color: #eef0f6;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  main { min-height: 100%; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; text-align: center; padding: 24px; box-sizing: border-box; }
-  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: 0.04em; }
-  p { margin: 0 0 28px; opacity: 0.75; max-width: 320px; line-height: 1.45; }
-  .btn { display: inline-block; background: #ff0033; color: #fff; text-decoration: none;
-    font-size: 18px; font-weight: 600; padding: 16px 28px; border-radius: 999px; }
-  .hint { margin-top: 28px; font-size: 13px; opacity: 0.55; }
+
+  /* Background: your image (bg.jpg), with a gradient fallback if it is missing */
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      linear-gradient(180deg, rgba(8,10,18,0.35) 0%, rgba(8,10,18,0.55) 55%, rgba(8,10,18,0.85) 100%),
+      url("bg.jpg") center / cover no-repeat,
+      radial-gradient(120% 80% at 50% 0%, #2a3158 0%, #121626 60%, #0b0e16 100%);
+  }
+
+  main {
+    position: relative; z-index: 1;
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    text-align: center; padding: 24px 24px calc(48px + env(safe-area-inset-bottom));
+  }
+
+  .card {
+    width: 100%; max-width: 360px; padding: 28px 22px 24px;
+    background: rgba(14, 17, 28, 0.45);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 22px;
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  h1 { font-size: 30px; font-weight: 600; margin: 0 0 8px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .sub { margin: 0 0 22px; opacity: 0.82; line-height: 1.5; font-size: 15px; }
+
+  .btn {
+    display: block; width: 100%;
+    background: #ff0033; color: #fff; text-decoration: none;
+    font-size: 18px; font-weight: 600; padding: 17px 20px; border-radius: 999px;
+    box-shadow: 0 0 0 0 rgba(255,0,51,0.55);
+    animation: pulse 2.6s ease-out infinite;
+  }
+  .btn:active { transform: scale(0.98); }
+  .note { margin: 14px 0 0; font-size: 12.5px; opacity: 0.6; }
+  .hint { margin: 22px 0 0; font-size: 12px; opacity: 0.45; }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,0,51,0.50); }
+    70%  { box-shadow: 0 0 0 16px rgba(255,0,51,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,0,51,0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { animation: none; } }
 </style>
 
 <!-- Meta Pixel -->
@@ -30,10 +67,14 @@ fbq('track', 'PageView');
 </script>
 </head>
 <body>
+<div class="bg" aria-hidden="true"></div>
 <main>
-  <h1>Hinoku</h1>
-  <p>Ambient mixes for focus, sleep and late nights.</p>
-  <a id="open" class="btn" href="https://www.youtube.com/channel/UC6uI8obP9dpYqzUZUSH8acA?sub_confirmation=1">Open in YouTube</a>
+  <div class="card">
+    <h1>Hinoku</h1>
+    <p class="sub">Ambient mixes for focus, sleep and late nights.</p>
+    <a id="open" class="btn" href="https://www.youtube.com/channel/UC6uI8obP9dpYqzUZUSH8acA?sub_confirmation=1">Open in YouTube</a>
+    <p class="note">Tap to listen and subscribe in the app</p>
+  </div>
   <p class="hint">Not opening? Tap the menu (three dots) and choose "Open in browser".</p>
 </main>
 <script>
