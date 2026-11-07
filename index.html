@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hinoku on YouTube</title>
+<title>Hinoku</title>
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: #0b0e16; color: #eef0f6;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 
-  /* Background: your image (bg.jpg), with a gradient fallback if it is missing */
+  /* Background image is set from pages.js. This gradient is the fallback. */
   .bg {
     position: fixed; inset: 0; z-index: 0;
     background:
       linear-gradient(180deg, rgba(8,10,18,0) 0%, rgba(8,10,18,0) 60%, rgba(8,10,18,0.45) 100%),
-      url("bg.jpg") center / cover no-repeat,
       radial-gradient(120% 80% at 50% 0%, #2a3158 0%, #121626 60%, #0b0e16 100%);
+    background-size: cover; background-position: center; background-repeat: no-repeat;
   }
 
   main {
@@ -35,24 +35,28 @@
   }
   h1 { font-size: 30px; font-weight: 600; margin: 0 0 8px; letter-spacing: 0.14em; text-transform: uppercase; }
   .sub { margin: 0 0 22px; opacity: 0.82; line-height: 1.5; font-size: 15px; }
+  .sub:empty, .note:empty { display: none; }
 
+  #buttons { display: flex; flex-direction: column; gap: 12px; }
   .btn {
-    display: block; width: 100%;
-    background: #ff0033; color: #fff; text-decoration: none;
+    display: block; width: 100%; text-decoration: none; text-align: center;
     font-size: 18px; font-weight: 600; padding: 17px 20px; border-radius: 999px;
-    box-shadow: 0 0 0 0 rgba(255,0,51,0.55);
-    animation: pulse 2.6s ease-out infinite;
+    color: #fff; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.18);
   }
   .btn:active { transform: scale(0.98); }
+  .btn.youtube { background: #ff0033; border-color: #ff0033; }
+  .btn.spotify { background: #1db954; border-color: #1db954; color: #07130b; }
+  .btn.apple   { background: linear-gradient(135deg, #fa2d48, #fb5c74); border-color: #fa2d48; }
+  .btn.primary { animation: pulse 2.6s ease-out infinite; }
   .note { margin: 14px 0 0; font-size: 12.5px; opacity: 0.6; }
   .hint { margin: 22px 0 0; font-size: 12px; opacity: 0.45; }
 
   @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(255,0,51,0.50); }
-    70%  { box-shadow: 0 0 0 16px rgba(255,0,51,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,0,51,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.35); }
+    70%  { box-shadow: 0 0 0 16px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
   }
-  @media (prefers-reduced-motion: reduce) { .btn { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .btn.primary { animation: none; } }
 </style>
 
 <!-- Meta Pixel -->
@@ -65,45 +69,107 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '2675429902656201');
 fbq('track', 'PageView');
 </script>
+
+<!-- All pages and buttons are defined in pages.js -->
+<script src="pages.js"></script>
 </head>
 <body>
-<div class="bg" aria-hidden="true"></div>
+<div class="bg" id="bg" aria-hidden="true"></div>
 <main>
   <div class="card">
-    <h1>Hinoku</h1>
-    <p class="sub">Ambient mixes for focus, sleep and late nights.</p>
-    <a id="open" class="btn" href="https://youtu.be/V7wgzfX9DYY?si=o1F6udduB8vVoT7-">Open in YouTube</a>
-    <p class="note">Tap to listen and subscribe in the app</p>
+    <h1 id="title"></h1>
+    <p class="sub" id="subtitle"></p>
+    <div id="buttons"></div>
+    <p class="note" id="note"></p>
   </div>
   <p class="hint">Not opening? Tap the menu (three dots) and choose "Open in browser".</p>
 </main>
 <script>
 (function () {
-  var id = "UC6uI8obP9dpYqzUZUSH8acA";
-  var web = "https://www.youtube.com/channel/" + id + "?sub_confirmation=1";
+  // Used only if pages.js is missing or broken
+  var FALLBACK = {
+    title: "Hinoku",
+    subtitle: "Ambient mixes for focus, sleep and late nights.",
+    note: "",
+    background: "bg.jpg",
+    event: "OpenYouTubeTap",
+    buttons: [{ type: "youtube", label: "Open in YouTube",
+      url: "https://www.youtube.com/channel/UC6uI8obP9dpYqzUZUSH8acA?sub_confirmation=1" }]
+  };
+
+  var pages = window.PAGES || {};
+  var key = new URLSearchParams(location.search).get("p") || "youtube";
+  var page = pages[key] || pages["youtube"] || FALLBACK;
+
   var ua = navigator.userAgent || "";
-  var btn = document.getElementById("open");
+  var isAndroid = /Android/i.test(ua);
+  var isIOS = /iPhone|iPad|iPod/i.test(ua);
+  var PKG = { youtube: "com.google.android.youtube", spotify: "com.spotify.music", apple: "com.apple.android.music" };
 
-  // Report the tap to Meta (custom event you can optimize for)
-  btn.addEventListener("click", function () {
-    try { fbq('trackCustom', 'OpenYouTubeTap'); } catch (err) {}
-  });
-
-  if (/Android/i.test(ua)) {
-    // Android: explicit intent that targets the YouTube app, with a web fallback
-    btn.href = "intent://www.youtube.com/channel/" + id +
-      "#Intent;scheme=https;package=com.google.android.youtube;" +
-      "S.browser_fallback_url=" + encodeURIComponent(web) + ";end";
-  } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    // iOS: try the YouTube URL scheme on tap, fall back to the web page
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      window.location.href = "youtube://www.youtube.com/channel/" + id;
-      setTimeout(function () {
-        if (document.visibilityState === "visible") { window.location.href = web; }
-      }, 1500);
-    });
+  function iosScheme(type, url) {
+    try {
+      var u = new URL(url);
+      if (type === "youtube") {
+        // Video links need their ?v=ID, channel links do not
+        return "youtube://" + u.host + u.pathname + (u.pathname === "/watch" ? u.search : "");
+      }
+      if (type === "apple")   { return "music://" + u.host + u.pathname + u.search; }
+      if (type === "spotify") {
+        var m = u.pathname.match(/\/(playlist|album|track|artist)\/([A-Za-z0-9]+)/);
+        if (m) { return "spotify:" + m[1] + ":" + m[2]; }
+      }
+    } catch (err) {}
+    return null;
   }
+
+  function androidIntent(type, url) {
+    var u = new URL(url);
+    var keepQuery = (type === "apple") || (type === "youtube" && u.pathname === "/watch");
+    return "intent://" + u.host + u.pathname + (keepQuery ? u.search : "") +
+      "#Intent;scheme=https;package=" + PKG[type] + ";" +
+      "S.browser_fallback_url=" + encodeURIComponent(url) + ";end";
+  }
+
+  // Text and background
+  document.title = page.title || "Hinoku";
+  document.getElementById("title").textContent = page.title || "";
+  document.getElementById("subtitle").textContent = page.subtitle || "";
+  document.getElementById("note").textContent = page.note || "";
+  if (page.background) {
+    document.getElementById("bg").style.backgroundImage =
+      'linear-gradient(180deg, rgba(8,10,18,0) 0%, rgba(8,10,18,0) 60%, rgba(8,10,18,0.45) 100%), ' +
+      'url("' + encodeURI(page.background) + '"), ' +
+      'radial-gradient(120% 80% at 50% 0%, #2a3158 0%, #121626 60%, #0b0e16 100%)';
+  }
+
+  // Buttons
+  var box = document.getElementById("buttons");
+  (page.buttons || []).forEach(function (b, i) {
+    var a = document.createElement("a");
+    a.className = "btn " + (b.type || "custom") + (i === 0 ? " primary" : "");
+    a.textContent = b.label || "Open";
+    a.href = b.url;
+    var ev = b.event || page.event;
+
+    if (isAndroid && PKG[b.type]) {
+      try { a.href = androidIntent(b.type, b.url); } catch (err) {}
+    }
+
+    a.addEventListener("click", function (e) {
+      if (ev) { try { fbq("trackCustom", ev); } catch (err) {} }
+      if (isIOS) {
+        var s = iosScheme(b.type, b.url);
+        if (s) {
+          e.preventDefault();
+          window.location.href = s;
+          setTimeout(function () {
+            if (document.visibilityState === "visible") { window.location.href = b.url; }
+          }, 1500);
+        }
+      }
+    });
+    box.appendChild(a);
+  });
 })();
 </script>
 </body>
