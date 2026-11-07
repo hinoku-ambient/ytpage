@@ -1,0 +1,48 @@
+// ---------------------------------------------------------------
+// Landing pages. Edit this file to add, change or remove pages.
+//
+// Each page is reached with ?p=name, for example:
+//   https://yourusername.github.io/ytpage/            -> page "youtube"
+//   https://yourusername.github.io/ytpage/?p=winter   -> page "winter"
+//
+// Button types: "youtube", "spotify", "apple" (open the app), "custom" (plain link)
+// "event" is the Meta event fired when someone taps (you can set one per button).
+// "background" is an image file in the same folder as index.html.
+// ---------------------------------------------------------------
+
+window.PAGES = {
+
+  // Default page (used when there is no ?p=). Keeps your current ads working.
+  youtube: {
+    title: "Hinoku",
+    subtitle: "Ambient mixes for focus, sleep and late nights.",
+    note: "Tap to listen and subscribe in the app",
+    background: "bg.jpg",
+    event: "OpenYouTubeTap",
+    buttons: [
+      { type: "youtube", label: "Watch on YouTube",
+        url: "https://www.youtube.com/watch?v=V7wgzfX9DYY" }
+    ]
+  },
+
+  // EXAMPLE: a playlist page with Spotify and Apple Music buttons.
+  // Replace the two URLs with your real playlist links before using it.
+  winter: {
+    title: "Winter Ambient",
+    subtitle: "Soft snowy ambient for quiet evenings.",
+    note: "Tap to open the playlist in the app",
+    background: "bg.jpg",
+    event: "OpenPlaylistTap",
+    buttons: [
+      { type: "spotify", label: "Listen on Spotify", event: "OpenSpotifyTap",
+        url: "https://open.spotify.com/playlist/PASTE_PLAYLIST_ID_HERE" },
+      { type: "apple", label: "Listen on Apple Music", event: "OpenAppleMusicTap",
+        url: "https://music.apple.com/PASTE_YOUR_PLAYLIST_LINK_HERE" }
+    ]
+  }
+
+  // To add another page, copy one block above, give it a new name
+  // (for example dreamy: { ... }), and put a comma after the block before it.
+  // Its link is then  ...github.io/ytpage/?p=dreamy
+
+};
