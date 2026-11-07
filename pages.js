@@ -1,4 +1,3 @@
-// ---------------------------------------------------------------
 // Landing pages. Edit this file to add, change or remove pages.
 //
 // Each page is reached with ?p=name, for example:
@@ -8,11 +7,10 @@
 // Button types: "youtube", "spotify", "apple" (open the app), "custom" (plain link)
 // "event" is the Meta event fired when someone taps (you can set one per button).
 // "background" is an image file in the same folder as index.html.
-// ---------------------------------------------------------------
 
 window.PAGES = {
 
-  // Default page (used when there is no ?p=). Keeps your current ads working.
+  // Default page (used when there is no ?p=).
   youtube: {
     title: "Hinoku",
     subtitle: "Ambient mixes for focus, sleep and late nights.",
@@ -40,9 +38,5 @@ window.PAGES = {
         url: "https://music.apple.com/PASTE_YOUR_PLAYLIST_LINK_HERE" }
     ]
   }
-
-  // To add another page, copy one block above, give it a new name
-  // (for example dreamy: { ... }), and put a comma after the block before it.
-  // Its link is then  ...github.io/ytpage/?p=dreamy
 
 };
