@@ -20,7 +20,7 @@ window.PAGES = {
   youtube: {
     title: "Hinoku",
     subtitle: "Ambient mixes for focus, sleep and late nights.",
-    note: "Tap to listen and subscribe in the app",
+    note: "Tap to listen and subscribe for more! :)",
     background: "bg.jpg",
     event: "OpenYouTubeTap",
     buttons: [
@@ -32,8 +32,8 @@ window.PAGES = {
   // ?p=playlist1
   playlist1: {
     title: "PLAYLIST 1 NAME",
-    subtitle: "One line about the vibe of this playlist.",
-    note: "Tap to open the playlist in the app",
+    subtitle: "This is a curated ambient playlist for sleeping and calm late night sessions.",
+    note: "Tap to open and save the playlist in the app",
     background: "bg.jpg",
     event: "OpenPlaylistTap",
     buttons: [
@@ -47,8 +47,8 @@ window.PAGES = {
   // ?p=playlist2
   playlist2: {
     title: "PLAYLIST 2 NAME",
-    subtitle: "One line about the vibe of this playlist.",
-    note: "Tap to open the playlist in the app",
+    subtitle: "This is a curated ambient playlist for sleeping and calm late night sessions.",
+    note: "Tap to open and save the playlist in the app",
     background: "bg.jpg",
     event: "OpenPlaylistTap",
     buttons: [
