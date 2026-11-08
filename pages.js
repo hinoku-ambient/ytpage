@@ -31,14 +31,14 @@ window.PAGES = {
 
   // ?p=playlist1
   playlist1: {
-    title: "PLAYLIST 1 NAME",
+    title: "Soft Ambient Winter Music.",
     subtitle: "This is a curated ambient playlist for sleeping and calm late night sessions.",
     note: "Tap to open and save the playlist in the app",
     background: "bg.jpg",
     event: "OpenPlaylistTap",
     buttons: [
       { type: "spotify", label: "Listen on Spotify", event: "OpenSpotifyTap",
-        url: "https://open.spotify.com/playlist/0iJ7YkOd39sEOefybU8iXJ?si=35259048f32e4787" },
+        url: "https://open.spotify.com/playlist/3wsoZfSiOTGxVI4K9dwaoS?si=9480d5bd7c924065" },
       { type: "apple", label: "Listen on Apple Music", event: "OpenAppleMusicTap",
         url: "https://music.apple.com/de/playlist/nostalgic-ambient-music/pl.u-qxylEeDu3aXgoGd" }
     ]
@@ -46,14 +46,14 @@ window.PAGES = {
 
   // ?p=playlist2
   playlist2: {
-    title: "PLAYLIST 2 NAME",
+    title: "Nostalgic Ambient Music.",
     subtitle: "This is a curated ambient playlist for sleeping and calm late night sessions.",
     note: "Tap to open and save the playlist in the app",
     background: "bg.jpg",
     event: "OpenPlaylistTap",
     buttons: [
       { type: "spotify", label: "Listen on Spotify", event: "OpenSpotifyTap",
-        url: "https://open.spotify.com/playlist/3gbNhrjidyJRVGDaQGDBYP?si=356fffaff4a64d5f" },
+        url: "https://open.spotify.com/playlist/0iJ7YkOd39sEOefybU8iXJ?si=8fc67c591b6e4988" },
       { type: "apple", label: "Listen on Apple Music", event: "OpenAppleMusicTap",
         url: "https://music.apple.com/de/playlist/nostalgic-ambient-music/pl.u-qxylEeDu3aXgoGd" }
     ]
